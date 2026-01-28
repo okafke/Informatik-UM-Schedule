@@ -1,0 +1,838 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Informatik:UM – Schedule by Room (06 Feb 2026)</title>
+  <style>
+    :root{
+      /* Light, friendly palette */
+      --bg1:#f6f8ff;
+      --bg2:#f3fbff;
+      --ink:#0f172a;          /* slate-900 */
+      --muted:#475569;        /* slate-600 */
+      --muted2:#64748b;       /* slate-500 */
+      --line: rgba(15,23,42,0.12);
+      --panel: rgba(255,255,255,0.86);
+      --panel2: rgba(255,255,255,0.95);
+      --shadow: 0 18px 45px rgba(15,23,42,0.10);
+      --shadow2: 0 10px 24px rgba(15,23,42,0.10);
+      --radius: 16px;
+
+      /* Types */
+      --talk:  #fb7185;  /* rose */
+      --demo:  #38bdf8;  /* sky */
+      --quiz:  #a78bfa;  /* violet */
+      --maker: #f59e0b;  /* amber */
+      --game:  #22c55e;  /* green */
+      --vibe:  #94a3b8;  /* slate (renamed from "Other") */
+
+      /* Grid config */
+      --startHour: 13;
+      --endHour: 26;      /* 26 represents 02:00 next day */
+      --gridGap: 10px;
+      --rowMinH: 96px;
+      --roomW: 190px;
+      --colMinW: 86px;    /* ensures time labels fit */
+    }
+
+    *{ box-sizing: border-box; }
+    html, body { height: 100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color: var(--ink);
+      background:
+        radial-gradient(900px 520px at 10% 0%, rgba(56,189,248,0.18), transparent 58%),
+        radial-gradient(900px 520px at 90% 10%, rgba(167,139,250,0.18), transparent 60%),
+        radial-gradient(900px 520px at 40% 100%, rgba(34,197,94,0.12), transparent 55%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      line-height: 1.35;
+    }
+
+    .wrap{
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 26px 16px 48px;
+    }
+
+    header{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px 16px;
+      align-items:flex-end;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    h1{
+      margin:0 0 6px;
+      font-size: clamp(22px, 2.4vw, 36px);
+      letter-spacing: 0.2px;
+    }
+    .sub{
+      margin:0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .controls{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      align-items:center;
+      justify-content:flex-end;
+    }
+    .pill{
+      display:flex;
+      gap: 8px;
+      align-items:center;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 9px 10px;
+      border-radius: 999px;
+      box-shadow: 0 6px 18px rgba(15,23,42,0.06);
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+    .pill label{ color: var(--muted2); }
+    .pill input[type="search"]{
+      border:none;
+      outline:none;
+      background: transparent;
+      color: var(--ink);
+      width: 240px;
+      font-size: 12.5px;
+    }
+    .pill input[type="checkbox"]{
+      accent-color: #38bdf8;
+      transform: translateY(1px);
+    }
+    .pill code{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: 12px;
+      color: var(--ink);
+      background: rgba(15,23,42,0.06);
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid rgba(15,23,42,0.08);
+    }
+
+    .legend{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+      margin: 10px 0 14px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .tag{
+      display:inline-flex;
+      gap: 8px;
+      align-items:center;
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 999px;
+      box-shadow: 0 6px 14px rgba(15,23,42,0.06);
+    }
+    .dot{ width:10px; height:10px; border-radius: 999px; background: var(--c); box-shadow: 0 0 0 3px rgba(15,23,42,0.05); }
+
+    /* Schedule container */
+    .schedule{
+      border: 1px solid var(--line);
+      background: var(--panel2);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: auto;
+    }
+    .scheduleInner{
+      min-width: calc(var(--roomW) + ( (var(--endHour) - var(--startHour)) * var(--colMinW) ));
+    }
+
+    /* Header row */
+    .head{
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display:grid;
+      grid-template-columns: var(--roomW) 1fr;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+    }
+    .roomHdr{
+      padding: 12px 12px;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      border-right: 1px solid var(--line);
+      display:flex;
+      align-items:center;
+    }
+
+    .timeHdr{
+      display:grid;
+      grid-template-columns: repeat(calc(var(--endHour) - var(--startHour)), minmax(var(--colMinW), 1fr));
+    }
+    .timeHdr div{
+      padding: 10px 8px;
+      border-left: 1px solid rgba(15,23,42,0.06);
+      color: var(--muted);
+      font-size: 12px;
+      text-align:center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .timeHdr div:first-child{ border-left: none; }
+
+    /* Rows */
+    .rows{
+      display:flex;
+      flex-direction: column;
+    }
+    .row{
+      display:grid;
+      grid-template-columns: var(--roomW) 1fr;
+      border-bottom: 1px solid rgba(15,23,42,0.06);
+      min-height: var(--rowMinH);
+      background: rgba(255,255,255,0.60);
+    }
+    .row:nth-child(even){
+      background: rgba(255,255,255,0.78);
+    }
+    .row:last-child{ border-bottom: none; }
+
+    .room{
+      padding: 14px 12px;
+      border-right: 1px solid var(--line);
+      display:flex;
+      flex-direction: column;
+      gap: 6px;
+      position: sticky;
+      left: 0;
+      z-index: 5;
+      background: inherit;
+      backdrop-filter: blur(6px);
+    }
+    .room .name{
+      font-weight: 780;
+      letter-spacing: 0.2px;
+      font-size: 14px;
+    }
+    .room .hint{
+      color: var(--muted2);
+      font-size: 12px;
+    }
+
+    .grid{
+      position: relative;
+      padding: 10px;
+      min-height: var(--rowMinH);
+    }
+    /* hour separators in background */
+    .grid::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          rgba(15,23,42,0.06) 0,
+          rgba(15,23,42,0.06) 1px,
+          transparent 1px,
+          transparent calc(100% / (var(--endHour) - var(--startHour)))
+        );
+      pointer-events:none;
+    }
+
+    .events{
+      position: relative;
+      display:grid;
+      grid-template-columns: repeat(calc(var(--endHour) - var(--startHour)), minmax(var(--colMinW), 1fr));
+      gap: var(--gridGap);
+      align-items: start;
+      z-index: 1;
+    }
+
+    .event{
+      position: relative;
+      border: 1px solid rgba(15,23,42,0.12);
+      background: rgba(255,255,255,0.80);
+      border-radius: 14px;
+      padding: 10px 10px 9px;
+      box-shadow: var(--shadow2);
+      overflow: hidden;
+      transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+      min-width: 0; /* allow inner ellipsis */
+    }
+    .event:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(15,23,42,0.14);
+      border-color: rgba(15,23,42,0.18);
+    }
+
+    .event::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: radial-gradient(420px 120px at 10% 0%, color-mix(in srgb, var(--c) 26%, transparent), transparent 62%);
+      opacity: 1;
+      pointer-events:none;
+    }
+    .event > *{ position: relative; z-index: 1; }
+
+    .top{
+      display:flex;
+      gap: 8px;
+      align-items:center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      min-width: 0;
+    }
+
+    .type{
+      display:inline-flex;
+      gap: 6px;
+      align-items:center;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--c) 16%, rgba(255,255,255,0.80));
+      border: 1px solid color-mix(in srgb, var(--c) 30%, rgba(15,23,42,0.10));
+      color: rgba(15,23,42,0.85);
+      font-size: 11.5px;
+      white-space: nowrap;
+      flex: 0 0 auto;
+    }
+
+    /* times must not wrap, must not disappear */
+    .time{
+      color: var(--muted2);
+      font-size: 11.5px;
+      white-space: nowrap;
+      overflow: visible;
+      text-overflow: clip;
+      flex: 0 0 auto;
+    }
+
+    .title{
+      font-weight: 780;
+      font-size: 13.5px;
+      letter-spacing: 0.15px;
+      margin: 0 0 4px;
+    }
+    .desc{
+      margin:0;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+    .meta{
+      margin-top: 7px;
+      color: var(--muted2);
+      font-size: 11.5px;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+    }
+    .meta strong{ color: var(--muted); }
+
+    .event a{ color: #0f172a; text-decoration: underline; text-decoration-color: rgba(15,23,42,0.25); }
+    .event a:hover{ text-decoration-color: rgba(15,23,42,0.50); }
+
+    /* Mobile tweaks */
+    @media (max-width: 720px){
+      :root{ --roomW: 160px; --colMinW: 82px; }
+      .pill input[type="search"]{ width: 180px; }
+    }
+  </style>
+</head>
+
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Informatik:UM – Schedule (by Room)</h1>
+      <p class="sub">Friday, 06 Feb 2026 · Informatikum (Vogt-Kölln-Straße) · Filterable, room-first schedule grid (runs until 02:00).</p>
+    </div>
+
+    <div class="controls">
+      <div class="pill">
+        <label for="q">Filter</label>
+        <input id="q" type="search" placeholder="Search title, speaker, tag, group…" autocomplete="off" />
+      </div>
+      <div class="pill">
+        <input id="onlyTalks" type="checkbox" />
+        <label for="onlyTalks">Talks only</label>
+      </div>
+      <div class="pill">
+        <span>Extend via</span> <code>EVENTS</code>
+      </div>
+    </div>
+  </header>
+
+  <div class="legend" aria-label="Legend">
+    <span class="tag" style="--c: var(--talk)"><span class="dot"></span> Talk</span>
+    <span class="tag" style="--c: var(--demo)"><span class="dot"></span> Demo</span>
+    <span class="tag" style="--c: var(--quiz)"><span class="dot"></span> Quiz</span>
+    <span class="tag" style="--c: var(--maker)"><span class="dot"></span> Maker</span>
+    <span class="tag" style="--c: var(--game)"><span class="dot"></span> Game</span>
+    <span class="tag" style="--c: var(--vibe)"><span class="dot"></span> Social &amp; Vibes</span>
+  </div>
+
+  <section class="schedule" aria-label="Schedule table">
+    <div class="scheduleInner">
+      <div class="head">
+        <div class="roomHdr">Room / Area</div>
+        <div class="timeHdr" id="timeHdr"></div>
+      </div>
+      <div class="rows" id="rows"></div>
+    </div>
+  </section>
+</div>
+
+<script>
+  // ==========
+  // CONFIG
+  // ==========
+  const START_HOUR = 13;   // 13:00
+  const END_HOUR   = 26;   // 26:00 == 02:00 next day
+  const HOURS = Array.from({length: END_HOUR - START_HOUR}, (_,i)=> START_HOUR + i);
+
+  // ==========
+  // DATA MODEL
+  // ==========
+  // Extend by adding items to EVENTS.
+  // NOTE: For times after midnight, use 24:00–26:00 to represent 00:00–02:00 next day.
+  const EVENTS = [
+    // base.camp
+    {
+      id: "hardy-upcycling",
+      title: 'Hardware Upcycling Lab: Build “Hardy” (the Mascot) from Legacy Components',
+      type: "Maker",
+      room: "Ramp @ Data Center",
+      start: "13:00",
+      end: "22:00",
+      contact: "tba",
+      group: "base.camp",
+      desc: "Upcycle cables, boards, and legacy parts into a mascot using hot glue, soldering irons, cable ties, and tape.",
+      tags: ["hardy","upcycling","maker"]
+    },
+
+    // NET talks
+    {
+      id: "talk-spelling-reform-1500",
+      title: 'Talk: “Mathematics-inspired spelling reform”',
+      type: "Talk",
+      room: "D-125/129",
+      start: "15:00",
+      end: "16:00",
+      speaker: "Rolf Windenberg (aka Bernd Wolfinger)",
+      group: "NET",
+      desc: "Talk session (1/2)."
+    },
+    {
+      id: "talk-spelling-reform-1600",
+      title: 'Talk: “Mathematics-inspired spelling reform”',
+      type: "Talk",
+      room: "D-125/129",
+      start: "16:00",
+      end: "17:00",
+      speaker: "Rolf Windenberg (aka Bernd Wolfinger)",
+      group: "NET",
+      desc: "Talk session (2/2)."
+    },
+    {
+      id: "talk-zuse",
+      title: 'Talk: “Die Kunst von Zuse” (German)',
+      type: "Talk",
+      room: "D-125/129",
+      start: "17:00",
+      end: "18:00",
+      speaker: "Horst Oberquelle",
+      group: "NET",
+      desc: "Talk session."
+    },
+
+    // DOS
+    {
+      id: "can-tossing",
+      title: "Distributed Object Storage: CAN Tossing with Fault Tolerance (DOSenwerfen)",
+      type: "Game",
+      room: "F-528",
+      start: "15:00",
+      end: "20:00",
+      contact: "janick.edinger@uni-hamburg.de",
+      group: "DOS",
+      desc: "Accurate write-operations (throws) into the target zone while minimizing packet loss, jitter, and collateral damage."
+    },
+    {
+      id: "mystikum",
+      title: "MystIKUM (Android Mystery Game): Solve the Crime at Ikum",
+      type: "Game",
+      room: "F-528",
+      start: "15:00",
+      end: "20:00",
+      contact: "janick.edinger@uni-hamburg.de",
+      group: "DOS",
+      desc: "Investigate a mystery game. No Android? Borrow a phone from DOS in F-528."
+    },
+
+    // DIT
+    {
+      id: "mushroom-ai",
+      title: 'AI Mushroom Search — “Do you trust our model?”',
+      type: "Demo",
+      room: "C-1XX",
+      start: "15:00",
+      end: "18:00",
+      contact: "tba",
+      group: "DIT",
+      desc: "See how the network “thinks” via heat maps; find traps and win free drinks."
+    },
+
+    // ITMC
+    {
+      id: "genai-true-fake",
+      title: "GenAI Picture Puzzle — True or Fake?",
+      type: "Quiz",
+      room: "C-113",
+      start: "16:00",
+      end: "17:00",
+      contact: "tba",
+      group: "ITMC",
+      desc: "Guess whether images are real or fake; win free drinks."
+    },
+
+    // LT
+    {
+      id: "lt-pub",
+      title: "Probabilistic Processing of Heterogeneous Unstructured Data (LT Pub)",
+      type: "Social & Vibes",
+      room: "F-424",
+      start: "15:00",
+      end: "26:00",     // runs until 02:00 next day
+      contact: "chris.biemann@uni-hamburg.de",
+      group: "LT",
+      desc: "Hourly time-limited free beer allocation; lounge + foosball lab + Bernoulli trials."
+    },
+    {
+      id: "lt-pub-quiz-1600",
+      title: "Adversarial Model Evaluation (LT Pub Quiz)",
+      type: "Quiz",
+      room: "F-433",
+      start: "16:00",
+      end: "17:00",
+      contact: "hans.ole.hatzel@uni-hamburg.de",
+      group: "LT",
+      desc: "Pub quiz session (1/2). Limited slots."
+    },
+    {
+      id: "lt-pub-quiz-2000",
+      title: "Adversarial Model Evaluation (LT Pub Quiz)",
+      type: "Quiz",
+      room: "F-433",
+      start: "20:00",
+      end: "21:00",
+      contact: "hans.ole.hatzel@uni-hamburg.de",
+      group: "LT",
+      desc: "Pub quiz session (2/2). Limited slots."
+    },
+    {
+      id: "paintroom",
+      title: "GenAI: Generative Ambiance Illustration (Paintroom)",
+      type: "Maker",
+      room: "F-4XX (tba)",
+      start: "15:00",
+      end: "21:00",
+      contact: "tba",
+      group: "LT",
+      desc: "Human-powered image generation; we supply colors, you hallucinate the ambiance.",
+      tba: true
+    },
+    {
+      id: "reverse-deengineering",
+      title: "Reverse Hardware Deengineering",
+      type: "Maker",
+      room: "F-4XX (tba)",
+      start: "17:00",
+      end: "20:00",
+      contact: "tba",
+      group: "LT",
+      desc: "Explore hardware from the inside. No functional hardware will be harmed (probably).",
+      tba: true
+    },
+
+    // NET (non-talks)
+    {
+      id: "ppt-karaoke",
+      title: "PowerPoint Karaoke Slam",
+      type: "Social & Vibes",
+      room: "tba (stage)",
+      start: "17:30",
+      end: "20:00",
+      contact: "Heiko Bornholdt",
+      group: "NET",
+      desc: "AI-generated slide decks, unknown to the presenters. Qualification round + main round.",
+      tba: true
+    },
+    {
+      id: "flip-cup",
+      title: "Flip Cup Tournament: Deterministic Cup Flipping",
+      type: "Game",
+      room: "House F (top floor)",
+      start: "20:00",
+      end: "22:00",
+      contact: "Cornelia Brülhart",
+      group: "NET",
+      desc: "Tournament / games."
+    },
+
+    // STUD
+    {
+      id: "schnick-graph",
+      title: "Schnick Graph: Game Theory via Social Graphs",
+      type: "Game",
+      room: "Online (ikum.schnick.cool)",
+      start: "13:00",
+      end: "26:00",   // keep it open through the full window
+      contact: "melissa.eiseburger@studium.uni-hamburg.de; helena.jaeger@studium.uni-hamburg.de",
+      group: "STUD",
+      desc: "Rock-paper-scissors tracking and leaderboards. Invite only, schnickers everywhere.",
+      tba: true
+    },
+    {
+      id: "bracelets",
+      title: "Applied Topology & Combinatorics: Friendship Bracelets",
+      type: "Maker",
+      room: "G-002",
+      start: "15:00",
+      end: "18:00",
+      contact: "Leon Wobbe",
+      group: "STUD",
+      desc: "Materials provided. Iteratively add beads until the bracelet is complete.",
+      tba: true
+    },
+    {
+      id: "beer-pong-opt",
+      title: "Beer Pong as an Optimization Problem (Hallway)",
+      type: "Game",
+      room: "Hallway (in front of G-002)",
+      start: "15:00",
+      end: "18:00",
+      contact: "Leon Wobbe",
+      group: "STUD",
+      desc: "Observe trajectories under resource constraints; derive an algorithm for optimal gameplay.",
+      tba: true
+    },
+
+    // Cross-group
+    {
+      id: "prob-moving",
+      title: "Probabilistic Moving Through Space and Time",
+      type: "Social & Vibes",
+      room: "B-201",
+      start: "14:00",
+      end: "22:00",
+      contact: "tba",
+      group: "Cross-group",
+      desc: "With DJ Martin Kohler / Junbo Wang; light effects by Anne Lauscher.",
+      tba: true
+    }
+  ];
+
+  // ==========
+  // HELPERS
+  // ==========
+  const toMinutes = (t) => {
+    const [h,m] = t.split(":").map(Number);
+    return h*60 + m;
+  };
+  const clamp = (n,a,b)=> Math.max(a, Math.min(b,n));
+  const slotIndex = (min) => {
+    const base = START_HOUR*60;
+    return clamp(Math.floor((min - base)/60), 0, HOURS.length-1);
+  };
+  const startCol = (startMin) => slotIndex(startMin) + 1;
+  const colSpan = (startMin, endMin) => {
+    const base = START_HOUR*60;
+    const a = (startMin - base)/60;
+    const b = (endMin - base)/60;
+    return clamp(Math.max(1, Math.ceil(b) - Math.floor(a)), 1, HOURS.length);
+  };
+
+  // category / type colors (now supports "Social & Vibes")
+  const typeColor = (type) => {
+    switch(String(type||"").toLowerCase()){
+      case "talk": return "var(--talk)";
+      case "demo": return "var(--demo)";
+      case "quiz": return "var(--quiz)";
+      case "maker": return "var(--maker)";
+      case "game": return "var(--game)";
+      case "social & vibes": return "var(--vibe)";
+      default: return "var(--vibe)";
+    }
+  };
+
+  // Display mapping:
+  // - 24:00 -> 00:00
+  // - 25:00 -> 01:00
+  // - 26:00 -> 02:00
+  const fmtTime = (t) => {
+    const [h, m] = t.split(":").map(Number);
+    if (h >= 24) return `${String(h - 24).padStart(2,"0")}:${String(m).padStart(2,"0")}`;
+    return `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}`;
+  };
+
+  // ==========
+  // SAFE HTML HELPERS
+  // ==========
+  const escapeHtml = (str) => String(str)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+  const escapeAttr = (str) => escapeHtml(str).replaceAll(" ","%20");
+
+  // ==========
+  // BUILD UI
+  // ==========
+  const timeHdr = document.getElementById("timeHdr");
+  const rowsEl = document.getElementById("rows");
+
+  // Header hours (show 00:00 / 01:00 / 02:00 for 24/25/26)
+  HOURS.forEach(h=>{
+    const lab = document.createElement("div");
+    const show = h >= 24 ? String(h - 24).padStart(2,"0") : String(h).padStart(2,"0");
+    lab.textContent = `${show}:00`;
+    timeHdr.appendChild(lab);
+  });
+
+  const rooms = [...new Set(EVENTS.map(e=>e.room))]
+    .sort((a,b)=>a.localeCompare(b, undefined, {numeric:true}));
+
+  function render(){
+    rowsEl.innerHTML = "";
+    const q = document.getElementById("q").value.trim().toLowerCase();
+    const onlyTalks = document.getElementById("onlyTalks").checked;
+
+    rooms.forEach(room=>{
+      const roomEventsAll = EVENTS.filter(e=>e.room === room);
+
+      const roomEvents = roomEventsAll.filter(e=>{
+        if(onlyTalks && String(e.type||"").toLowerCase() !== "talk") return false;
+        if(!q) return true;
+        const hay = [
+          e.title, e.type, e.room, e.group, e.speaker, e.contact, e.desc,
+          ...(e.tags||[])
+        ].filter(Boolean).join(" ").toLowerCase();
+        return hay.includes(q);
+      });
+
+      if(roomEvents.length === 0) return;
+
+      const row = document.createElement("div");
+      row.className = "row";
+
+      const roomCell = document.createElement("div");
+      roomCell.className = "room";
+      const name = document.createElement("div");
+      name.className = "name";
+      name.textContent = room;
+      const hint = document.createElement("div");
+      hint.className = "hint";
+      hint.textContent = `${roomEvents.length} event(s)`;
+      roomCell.appendChild(name);
+      roomCell.appendChild(hint);
+
+      const grid = document.createElement("div");
+      grid.className = "grid";
+
+      const eventsGrid = document.createElement("div");
+      eventsGrid.className = "events";
+
+      roomEvents
+        .sort((a,b)=> toMinutes(a.start) - toMinutes(b.start))
+        .forEach(e=>{
+          const sMin = toMinutes(e.start);
+          const eMin = toMinutes(e.end);
+          const sc = startCol(sMin);
+          const sp = colSpan(sMin, eMin);
+
+          const card = document.createElement("div");
+          card.className = "event";
+          card.style.setProperty("--c", typeColor(e.type));
+          card.style.gridColumn = `${sc} / span ${sp}`;
+
+          const top = document.createElement("div");
+          top.className = "top";
+
+          const type = document.createElement("div");
+          type.className = "type";
+          type.textContent = e.type || "Social & Vibes";
+
+          const time = document.createElement("div");
+          time.className = "time";
+          time.textContent = `${fmtTime(e.start)}–${fmtTime(e.end)}`;
+
+          top.appendChild(type);
+          top.appendChild(time);
+
+          const title = document.createElement("div");
+          title.className = "title";
+          title.textContent = e.title;
+
+          const desc = document.createElement("p");
+          desc.className = "desc";
+          desc.textContent = e.desc || "";
+
+          const meta = document.createElement("div");
+          meta.className = "meta";
+
+          if(e.speaker){
+            const sp = document.createElement("span");
+            sp.innerHTML = `<strong>Speaker:</strong> ${escapeHtml(e.speaker)}`;
+            meta.appendChild(sp);
+          }
+          if(e.contact){
+            const c = document.createElement("span");
+            const emailish = String(e.contact).includes("@") && !String(e.contact).includes(" ");
+            c.innerHTML = emailish
+              ? `<strong>Contact:</strong> <a href="mailto:${escapeAttr(e.contact)}">${escapeHtml(e.contact)}</a>`
+              : `<strong>Contact:</strong> ${escapeHtml(e.contact)}`;
+            meta.appendChild(c);
+          }
+          if(e.group){
+            const g = document.createElement("span");
+            g.innerHTML = `<strong>Group:</strong> ${escapeHtml(e.group)}`;
+            meta.appendChild(g);
+          }
+          if(e.tba){
+            const t = document.createElement("span");
+            t.innerHTML = `<strong>Status:</strong> <em>tba</em>`;
+            meta.appendChild(t);
+          }
+
+          card.appendChild(top);
+          card.appendChild(title);
+          if(e.desc) card.appendChild(desc);
+          if(meta.childElementCount) card.appendChild(meta);
+
+          eventsGrid.appendChild(card);
+        });
+
+      grid.appendChild(eventsGrid);
+
+      row.appendChild(roomCell);
+      row.appendChild(grid);
+      rowsEl.appendChild(row);
+    });
+  }
+
+  document.getElementById("q").addEventListener("input", render);
+  document.getElementById("onlyTalks").addEventListener("change", render);
+  render();
+</script>
+</body>
+</html>
