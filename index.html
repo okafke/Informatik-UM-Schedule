@@ -30,7 +30,6 @@
       /* Grid config */
       --startHour: 13;
       --endHour: 26;      /* 26 represents 02:00 next day */
-      --gridGap: 10px;
       --rowMinH: 96px;
       --roomW: 190px;
       --colMinW: 86px;    /* ensures time labels fit */
@@ -228,7 +227,6 @@
 
     .grid{
       position: relative;
-      padding: 10px;
       min-height: var(--rowMinH);
     }
     /* hour separators in background */
@@ -251,7 +249,6 @@
       position: relative;
       display:grid;
       grid-template-columns: repeat(calc(var(--endHour) - var(--startHour)), minmax(var(--colMinW), 1fr));
-      gap: var(--gridGap);
       align-items: start;
       z-index: 1;
     }
