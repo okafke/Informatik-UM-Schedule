@@ -250,7 +250,7 @@
     .events{
       position: relative;
       display:grid;
-      grid-template-columns: repeat(calc(var(--endHour) - var(--startHour)), minmax(var(--colMinW), 1fr));
+      grid-template-columns: repeat(calc(var(--endHour) - var(--startHour)), minmax(var(--gridGap), 1fr));
       gap: var(--gridGap);
       align-items: start;
       z-index: 1;
