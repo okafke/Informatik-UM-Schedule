@@ -342,8 +342,20 @@
 
     /* Mobile tweaks */
     @media (max-width: 720px){
-      :root{ --roomW: 160px; --colMinW: 82px; }
+      :root{ --roomW: 160px; --colMinW: 130px; }
       .pill input[type="search"]{ width: 180px; }
+
+      /* Place time on next line on mobile */
+      .event .top{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+      }
+
+      .event .time{
+        display: block;
+        width: 100%;
+      }
     }
   </style>
 </head>
