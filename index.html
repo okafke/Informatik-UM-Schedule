@@ -1,3 +1,4 @@
+```html
 <!doctype html>
 <html lang="en">
 <head>
@@ -30,6 +31,7 @@
       /* Grid config */
       --startHour: 13;
       --endHour: 26;      /* 26 represents 02:00 next day */
+      --gridGap: 10px;
       --rowMinH: 96px;
       --roomW: 190px;
       --colMinW: 86px;    /* ensures time labels fit */
@@ -227,6 +229,7 @@
 
     .grid{
       position: relative;
+      padding: 10px;
       min-height: var(--rowMinH);
     }
     /* hour separators in background */
@@ -249,6 +252,7 @@
       position: relative;
       display:grid;
       grid-template-columns: repeat(calc(var(--endHour) - var(--startHour)), minmax(var(--colMinW), 1fr));
+      gap: var(--gridGap);
       align-items: start;
       z-index: 1;
     }
@@ -416,10 +420,38 @@
       tags: ["hardy","upcycling","maker"]
     },
 
+    // Haus A (NEW)
+    {
+      id: "triadmin-quiz",
+      title: "TriAdmin³ Quizmeisterschaft (Quiz Triathlon)",
+      type: "Quiz",
+      room: "Haus A (start: Library)",
+      start: "15:00",
+      end: "18:00",
+      contact: "Annette Morawski; Dagmar Schacht",
+      group: "Haus A",
+      desc: "A quiz triathlon through the departments of House A. Conquer obstacles on every floor and earn your Admin certificate of glory."
+    },
+
+    // ITMC / FSR WI (NEW)
+    {
+      id: "bpsi-beverage-incentives",
+      title: "Business Process Simulation with Beverage Incentives",
+      type: "Social & Vibes",
+      room: "tba (room request: seating)",
+      start: "16:00",
+      end: "26:00",
+      contact: "Antonia Buß",
+      group: "ITMC / FSR WI",
+      desc: "From 16:00 onwards, a new round starts every hour: a light-weight ‘process simulation’ drinking game with beer and soft drinks provided. Designed for hanging out, chatting, and saying goodbye together. Continuous supervision ensured.",
+      tba: true,
+      tags: ["process","simulation","social","hourly"]
+    },
+
     // NET talks
     {
       id: "talk-spelling-reform-1500",
-      title: 'Talk: “Mathematics-inspired spelling reform”',
+      title: 'Humoristic Talk "Mathematical Playfulness: A Humorous Approach to Reforming English Orthography"',
       type: "Talk",
       room: "D-125/129",
       start: "15:00",
@@ -430,7 +462,7 @@
     },
     {
       id: "talk-spelling-reform-1600",
-      title: 'Talk: “Mathematics-inspired spelling reform”',
+      title: 'Humoristic Talk "Mathematical Playfulness: A Humorous Approach to Reforming English Orthography"',
       type: "Talk",
       room: "D-125/129",
       start: "16:00",
@@ -833,3 +865,4 @@
 </script>
 </body>
 </html>
+```
