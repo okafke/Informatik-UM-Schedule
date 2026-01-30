@@ -1,4 +1,15 @@
 [
+    {
+    "id": "triadmin-quiz",
+    "title": "TriAdmin³ Quizmeisterschaft (Quiz Triathlon)",
+    "type": "Quiz",
+    "room": "House A (start: Library)",
+    "start": "15:00",
+    "end": "18:00",
+    "contact": "annette.morawski@uni-hamburg.de; dagmar.schacht@uni-hamburg.de",
+    "group": "FBI/STB",
+    "desc": "A quiz triathlon through the departments of House A. Conquer obstacles on every floor and earn your Admin certificate of glory."
+  },
   {
     "id": "hardy-upcycling",
     "title": "Hardware Upcycling Lab: Build “Hardy” (the Mascot) from Legacy Components",
@@ -12,21 +23,10 @@
     "tags": ["hardy", "upcycling", "maker"]
   },
   {
-    "id": "triadmin-quiz",
-    "title": "TriAdmin³ Quizmeisterschaft (Quiz Triathlon)",
-    "type": "Quiz",
-    "room": "Haus A (start: Library)",
-    "start": "15:00",
-    "end": "18:00",
-    "contact": "Annette Morawski; Dagmar Schacht",
-    "group": "Haus A",
-    "desc": "A quiz triathlon through the departments of House A. Conquer obstacles on every floor and earn your Admin certificate of glory."
-  },
-  {
     "id": "bpsi-beverage-incentives",
     "title": "Business Process Simulation with Beverage Incentives",
     "type": "Social & Vibes",
-    "room": "tba (room request: seating)",
+    "room": "tba",
     "start": "16:00",
     "end": "26:00",
     "contact": "antonia.buss@studium.uni-hamburg.de",
@@ -41,6 +41,7 @@
     "room": "D-125/129",
     "start": "15:00",
     "end": "16:30",
+	"contact": "mathias.fischer@uni-hamburg.de",
     "speaker": "Rolf Windenberg (aka Bernd Wolfinger)",
     "group": "NET"
   },
@@ -51,6 +52,7 @@
     "room": "D-125/129",
     "start": "17:00",
     "end": "18:30",
+	"contact": "mathias.fischer@uni-hamburg.de",
     "speaker": "Horst Oberquelle",
     "group": "NET"
   },
@@ -94,7 +96,7 @@
     "room": "C-113",
     "start": "16:00",
     "end": "17:00",
-    "contact": "tba",
+    "contact": "emir.kucevic@uni-hamburg.de, constantin.von.brackel@uni-hamburg.de",
     "group": "ITMC",
     "desc": "Guess whether images are real or fake; win free drinks."
   },
@@ -171,7 +173,7 @@
     "room": "House F (top floor)",
     "start": "20:00",
     "end": "22:00",
-    "contact": "Cornelia Brülhart",
+    "contact": "cornelia.bruelhart@uni-hamburg.de",
     "group": "NET",
     "desc": "Tournament / games."
   },
@@ -201,7 +203,7 @@
     "id": "beer-pong-opt",
     "title": "Beer Pong as an Optimization Problem (Hallway)",
     "type": "Game",
-    "room": "Hallway (in front of G-002)",
+    "room": "G-002",
     "start": "15:00",
     "end": "18:00",
     "contact": "Leon Wobbe",
@@ -242,5 +244,31 @@
     "contact": "janick.edinger@uni-hamburg.de",
     "desc": "With DJ Martin Kohler / Junbo Wang; light effects by Anne Lauscher.",
     "group": "Cross-group"
-  }
+  },
+  {
+  "id": "karaoke-auditive-synchronization",
+  "title": "Concurrent Auditive Signal Synchronization (Karaoke)",
+  "type": "Social & Vibes",
+  "room": "G-021/22",
+  "start": "15:00",
+  "end": "26:00",
+  "contact": "samuel.schuetz@studium.uni-hamburg.de; toni.bittner@studium.uni-hamburg.de",
+  "group": "STUD",
+  "desc": "Pick your favorite song and explore how multiple agent-controlled sound streams can be harmonized in real-time systems. How precisely can you tune and time your output?",
+  "tags": ["karaoke","audio","synchronization","realtime","multi-agent"]
+},
+{
+  "id": "hide-seek-multimodal-localization",
+  "title": "Multimodal Person Localization (Hide & Seek)",
+  "type": "Game",
+  "room": "Campus-wide (start: G-003)",
+  "start": "15:00",
+  "end": "19:00",
+  "contact": "timo.heitmann@studium.uni-hamburg.de; toni.bittner@studium.uni-hamburg.de",
+  "group": "STUD",
+  "desc": "How well do you know the campus? Join a round: hide as long as you can or track down the hider using strategic deduction and guided questions from the investigation book.",
+  "tags": ["hide-and-seek","localization","multimodal","deduction","campus"]
+}
+
+  
 ]
