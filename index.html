@@ -414,279 +414,8 @@
   // ==========
   // DATA MODEL
   // ==========
-  // Extend by adding items to EVENTS.
   // NOTE: For times after midnight, use 24:00–26:00 to represent 00:00–02:00 next day.
-  const EVENTS = [
-    // base.camp
-    {
-      id: "hardy-upcycling",
-      title: 'Hardware Upcycling Lab: Build “Hardy” (the Mascot) from Legacy Components',
-      type: "Maker",
-      room: "Ramp @ Data Center",
-      start: "15:00",
-      end: "20:00",
-      contact: "janick.edinger@uni-hamburg.de",
-      group: "base.camp",
-      desc: "Upcycle cables, boards, and legacy parts into a mascot using hot glue, cable ties, and tape.",
-      tags: ["hardy","upcycling","maker"]
-    },
-
-    // Haus A (NEW)
-    {
-      id: "triadmin-quiz",
-      title: "TriAdmin³ Quizmeisterschaft (Quiz Triathlon)",
-      type: "Quiz",
-      room: "Haus A (start: Library)",
-      start: "15:00",
-      end: "18:00",
-      contact: "Annette Morawski; Dagmar Schacht",
-      group: "Haus A",
-      desc: "A quiz triathlon through the departments of House A. Conquer obstacles on every floor and earn your Admin certificate of glory."
-    },
-
-    // ITMC / FSR WI (NEW)
-    {
-      id: "bpsi-beverage-incentives",
-      title: "Business Process Simulation with Beverage Incentives",
-      type: "Social & Vibes",
-      room: "tba (room request: seating)",
-      start: "16:00",
-      end: "26:00",
-      contact: "antonia.buss@studium.uni-hamburg.de",
-      group: "ITMC / FSR WI",
-      desc: "From 16:00 onwards, a new round starts every hour: a light-weight ‘process simulation’ drinking game with beer and soft drinks provided. Designed for hanging out, chatting, and saying goodbye together.",
-      tags: ["process","simulation","social","hourly"]
-    },
-
-    // NET talks
-    {
-      id: "talk-spelling-reform-1500",
-      title: 'Humoristic Talk "Mathematical Playfulness: A Humorous Approach to Reforming English Orthography"',
-      type: "Talk",
-      room: "D-125/129",
-      start: "15:00",
-      end: "16:30",
-      speaker: "Rolf Windenberg (aka Bernd Wolfinger)",
-      group: "NET"
-    },
-    {
-      id: "talk-zuse",
-      title: 'Talk: “Die Kunst von Zuse” (German)',
-      type: "Talk",
-      room: "D-125/129",
-      start: "17:00",
-      end: "18:30",
-      speaker: "Horst Oberquelle",
-      group: "NET"
-    },
-
-    // DOS
-    {
-      id: "can-tossing",
-      title: "Distributed Object Storage: CAN Tossing with Fault Tolerance (DOSenwerfen)",
-      type: "Game",
-      room: "F-528",
-      start: "15:00",
-      end: "20:00",
-      contact: "janick.edinger@uni-hamburg.de",
-      group: "DOS",
-      desc: "Accurate write-operations (throws) into the target zone while minimizing packet loss, jitter, and collateral damage."
-    },
-    {
-      id: "mystikum",
-      title: "MystIKUM (Android Mystery Game): Solve the Crime at Ikum",
-      type: "Game",
-      room: "F-528",
-      start: "15:00",
-      end: "20:00",
-      contact: "janick.edinger@uni-hamburg.de",
-      group: "DOS",
-      desc: "Investigate a mystery game. No Android? Borrow a phone from DOS in F-528."
-    },
-
-    // DIT
-    {
-      id: "mushroom-ai",
-      title: 'AI Mushroom Search — “Do you trust our model?”',
-      type: "Demo",
-      room: "C-104",
-      start: "15:00",
-      end: "18:00",
-      contact: "britta.ingwersen@uni-hamburg.de, johann.mayer@uni-hamburg.de",
-      group: "DIT",
-      desc: "See how the network “thinks” via heat maps; find traps and win free drinks."
-    },
-
-    // ITMC
-    {
-      id: "genai-true-fake",
-      title: "GenAI Picture Puzzle — True or Fake?",
-      type: "Quiz",
-      room: "C-113",
-      start: "16:00",
-      end: "17:00",
-      contact: "tba",
-      group: "ITMC",
-      desc: "Guess whether images are real or fake; win free drinks."
-    },
-
-    // LT
-    {
-      id: "lt-pub",
-      title: "Probabilistic Processing of Heterogeneous Unstructured Data (LT Pub)",
-      type: "Social & Vibes",
-      room: "F-424",
-      start: "15:00",
-      end: "25:00",     // runs until 02:00 next day
-      contact: "chris.biemann@uni-hamburg.de",
-      group: "LT",
-      desc: "Hourly time-limited free beer allocation; lounge + foosball lab + Bernoulli trials."
-    },
-    {
-      id: "lt-pub-quiz-1600",
-      title: "Adversarial Model Evaluation (LT Pub Quiz)",
-      type: "Quiz",
-      room: "F-433",
-      start: "16:00",
-      end: "17:00",
-      contact: "hans.ole.hatzel@uni-hamburg.de",
-      group: "LT",
-      desc: "Pub quiz session (1/2). Limited slots."
-    },
-    {
-      id: "lt-pub-quiz-2000",
-      title: "Adversarial Model Evaluation (LT Pub Quiz)",
-      type: "Quiz",
-      room: "F-433",
-      start: "20:00",
-      end: "21:00",
-      contact: "hans.ole.hatzel@uni-hamburg.de",
-      group: "LT",
-      desc: "Pub quiz session (2/2). Limited slots."
-    },
-    {
-      id: "paintroom",
-      title: "GenAI: Generative Ambiance Illustration (Paintroom)",
-      type: "Maker",
-      room: "F-435",
-      start: "15:00",
-      end: "21:00",
-      contact: "chris.biemann@uni-hamburg.de",
-      group: "LT",
-      desc: "Human-powered image generation; we supply colors, you hallucinate the ambiance."
-    },
-    {
-      id: "reverse-deengineering",
-      title: "Reverse Hardware Deengineering",
-      type: "Maker",
-      room: "F-42X",
-      start: "17:00",
-      end: "20:00",
-      contact: "tba",
-      group: "LT",
-      desc: "Explore hardware from the inside. No functional hardware will be harmed (probably)."
-    },
-
-    // NET (non-talks)
-    {
-      id: "ppt-karaoke",
-      title: "PowerPoint Karaoke Slam",
-      type: "Social & Vibes",
-      room: "D-125/129",
-      start: "19:00",
-      end: "21:30",
-      contact: "Heiko Bornholdt",
-      group: "NET",
-      desc: "AI-generated slide decks, unknown to the presenters. Qualification round + main round.",
-    },
-    {
-      id: "flip-cup",
-      title: "Flip Cup Tournament: Deterministic Cup Flipping",
-      type: "Game",
-      room: "House F (top floor)",
-      start: "20:00",
-      end: "22:00",
-      contact: "Cornelia Brülhart",
-      group: "NET",
-      desc: "Tournament / games."
-    },
-
-    // STUD
-    {
-      id: "schnick-graph",
-      title: "Schnick Graph: Game Theory via Social Graphs",
-      type: "Game",
-      room: "Online (ikum.schnick.cool)",
-      start: "13:00",
-      end: "26:00",   // keep it open through the full window
-      contact: "melissa.eiseburger@studium.uni-hamburg.de; helena.jaeger@studium.uni-hamburg.de",
-      group: "STUD",
-      desc: "Rock-paper-scissors tracking and leaderboards. Invite only, schnickers everywhere."
-    },
-    {
-      id: "bracelets",
-      title: "Applied Topology & Combinatorics: Friendship Bracelets",
-      type: "Maker",
-      room: "G-002",
-      start: "15:00",
-      end: "18:00",
-      contact: "Leon Wobbe",
-      group: "STUD",
-      desc: "Materials provided. Iteratively add beads until the bracelet is complete."
-    },
-    {
-      id: "beer-pong-opt",
-      title: "Beer Pong as an Optimization Problem (Hallway)",
-      type: "Game",
-      room: "Hallway (in front of G-002)",
-      start: "15:00",
-      end: "18:00",
-      contact: "Leon Wobbe",
-      group: "STUD",
-      desc: "Observe trajectories under resource constraints; derive an algorithm for optimal gameplay."
-    },
-	
-	// RoboCup AG (Hamburg Bit-Bots) (NEW)
-{
-  id: "robocup-bitbots-teleop",
-  title: "RoboCup AG (Hamburg Bit-Bots): Humanoid Robot Teleoperation & RoboSoccer",
-  type: "Demo",
-  room: "F-009",
-  start: "15:00",
-  end: "19:30",
-  contact: "jan.gutsche@studium.uni-hamburg.de",
-  group: "RoboCup AG (Hamburg Bit-Bots)",
-  desc: "Remotely control a humanoid robot and accompany it on a final walk through the Informatikum—or drop by to learn about autonomous soccer-playing humanoid robots.",
-  tags: ["robotics","humanoid","teleoperation","robocup","autonomous-soccer"]
-},
-	
-	// HRI Master Project (NEW)
-{
-  id: "escape-the-informatikum",
-  title: "Escape the Informatikum",
-  type: "Quiz",
-  room: "F-234/235",
-  start: "15:00",
-  end: "21:00",
-  contact: "Thomas Vitry; Connor Gäde; Jan-Gerrit Habekost",
-  group: "HRI Master Project",
-  desc: "Bring your best friend (or a random stranger) and solve the mysteries inside the mind of a robotic researcher. A 2-participant, ~30-minute escape room run by the HRI Master Project. One round every 45 minutes; reservations possible.",
-  tags: ["escape-room","puzzle","hri","reservations","rounds-every-45min"]
-},
-
-    // Cross-group
-    {
-      id: "prob-moving",
-      title: "Probabilistic Moving Through Space and Time",
-      type: "Social & Vibes",
-      room: "B-201",
-      start: "20:00",
-      end: "26:00",
-      contact: "janick.edinger@uni-hamburg.de",
-      desc: "With DJ Martin Kohler / Junbo Wang; light effects by Anne Lauscher.",
-      group: "Cross-group",
-    }
-  ];
+  let EVENTS = [];
 
   // ==========
   // HELPERS
@@ -756,13 +485,17 @@
     timeHdr.appendChild(lab);
   });
 
-  const rooms = [...new Set(EVENTS.map(e=>e.room))]
-    .sort((a,b)=>a.localeCompare(b, undefined, {numeric:true}));
+  function getRooms(){
+    return [...new Set(EVENTS.map(e=>e.room))]
+      .sort((a,b)=>a.localeCompare(b, undefined, {numeric:true}));
+  }
 
   function render(){
     rowsEl.innerHTML = "";
     const q = document.getElementById("q").value.trim().toLowerCase();
     const onlyTalks = document.getElementById("onlyTalks").checked;
+
+    const rooms = getRooms();
 
     rooms.forEach(room=>{
       const roomEventsAll = EVENTS.filter(e=>e.room === room);
@@ -877,9 +610,23 @@
     });
   }
 
+  async function loadEvents(){
+    try{
+      const url = new URL("events.json", window.location.href);
+      const res = await fetch(url, { cache: "no-store" });
+      if(!res.ok) throw new Error(`Failed to load events.json: ${res.status}`);
+      const data = await res.json();
+      EVENTS = Array.isArray(data) ? data : [];
+      render();
+    }catch(err){
+      console.error(err);
+      rowsEl.innerHTML = "<p style=\"padding:12px;color:#b91c1c;\">Failed to load events.</p>";
+    }
+  }
+
   document.getElementById("q").addEventListener("input", render);
   document.getElementById("onlyTalks").addEventListener("change", render);
-  render();
+  loadEvents();
 </script>
 </body>
 </html>
