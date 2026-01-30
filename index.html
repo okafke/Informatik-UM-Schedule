@@ -30,10 +30,10 @@
       /* Grid config */
       --startHour: 13;
       --endHour: 26;      /* 26 represents 02:00 next day */
-      --gridGap: 15px;
+      --gridGap: 10px;
       --rowMinH: 96px;
       --roomW: 190px;
-      --colMinW: 160px;    /* ensures time labels fit */
+      --colMinW: 86px;    /* ensures time labels fit */
     }
 
     *{ box-sizing: border-box; }
@@ -250,7 +250,7 @@
     .events{
       position: relative;
       display:grid;
-      grid-template-columns: repeat(calc(var(--endHour) - var(--startHour)), minmax(var(--gridGap), 1fr));
+      grid-template-columns: repeat(calc(var(--endHour) - var(--startHour)), minmax(var(--colMinW), 1fr));
       gap: var(--gridGap);
       align-items: start;
       z-index: 1;
@@ -342,20 +342,8 @@
 
     /* Mobile tweaks */
     @media (max-width: 720px){
-      :root{ --roomW: 160px; --colMinW: 130px; }
+      :root{ --roomW: 160px; --colMinW: 82px; }
       .pill input[type="search"]{ width: 180px; }
-
-      /* Place time on next line on mobile */
-      .event .top{
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 2px;
-      }
-
-      .event .time{
-        display: block;
-        width: 100%;
-      }
     }
   </style>
 </head>
@@ -407,7 +395,7 @@
   // ==========
   // CONFIG
   // ==========
-  const START_HOUR = 13;   // 13:00
+  const START_HOUR = 15;   // 15:00
   const END_HOUR   = 26;   // 26:00 == 02:00 next day
   const HOURS = Array.from({length: END_HOUR - START_HOUR}, (_,i)=> START_HOUR + i);
 
@@ -423,11 +411,11 @@
       title: 'Hardware Upcycling Lab: Build “Hardy” (the Mascot) from Legacy Components',
       type: "Maker",
       room: "Ramp @ Data Center",
-      start: "13:00",
-      end: "22:00",
-      contact: "tba",
+      start: "15:00",
+      end: "20:00",
+      contact: "janick.edinger@uni-hamburg.de",
       group: "base.camp",
-      desc: "Upcycle cables, boards, and legacy parts into a mascot using hot glue, soldering irons, cable ties, and tape.",
+      desc: "Upcycle cables, boards, and legacy parts into a mascot using hot glue, cable ties, and tape.",
       tags: ["hardy","upcycling","maker"]
     },
 
@@ -452,10 +440,9 @@
       room: "tba (room request: seating)",
       start: "16:00",
       end: "26:00",
-      contact: "Antonia Buß",
+      contact: "antonia.buss@studium.uni-hamburg.de",
       group: "ITMC / FSR WI",
-      desc: "From 16:00 onwards, a new round starts every hour: a light-weight ‘process simulation’ drinking game with beer and soft drinks provided. Designed for hanging out, chatting, and saying goodbye together. Continuous supervision ensured.",
-      tba: true,
+      desc: "From 16:00 onwards, a new round starts every hour: a light-weight ‘process simulation’ drinking game with beer and soft drinks provided. Designed for hanging out, chatting, and saying goodbye together.",
       tags: ["process","simulation","social","hourly"]
     },
 
@@ -466,21 +453,9 @@
       type: "Talk",
       room: "D-125/129",
       start: "15:00",
-      end: "16:00",
+      end: "16:30",
       speaker: "Rolf Windenberg (aka Bernd Wolfinger)",
-      group: "NET",
-      desc: "Talk session (1/2)."
-    },
-    {
-      id: "talk-spelling-reform-1600",
-      title: 'Humoristic Talk "Mathematical Playfulness: A Humorous Approach to Reforming English Orthography"',
-      type: "Talk",
-      room: "D-125/129",
-      start: "16:00",
-      end: "17:00",
-      speaker: "Rolf Windenberg (aka Bernd Wolfinger)",
-      group: "NET",
-      desc: "Talk session (2/2)."
+      group: "NET"
     },
     {
       id: "talk-zuse",
@@ -488,10 +463,9 @@
       type: "Talk",
       room: "D-125/129",
       start: "17:00",
-      end: "18:00",
+      end: "18:30",
       speaker: "Horst Oberquelle",
-      group: "NET",
-      desc: "Talk session."
+      group: "NET"
     },
 
     // DOS
@@ -523,10 +497,10 @@
       id: "mushroom-ai",
       title: 'AI Mushroom Search — “Do you trust our model?”',
       type: "Demo",
-      room: "C-1XX",
+      room: "C-104",
       start: "15:00",
       end: "18:00",
-      contact: "tba",
+      contact: "britta.ingwersen@uni-hamburg.de, johann.mayer@uni-hamburg.de",
       group: "DIT",
       desc: "See how the network “thinks” via heat maps; find traps and win free drinks."
     },
@@ -551,7 +525,7 @@
       type: "Social & Vibes",
       room: "F-424",
       start: "15:00",
-      end: "26:00",     // runs until 02:00 next day
+      end: "25:00",     // runs until 02:00 next day
       contact: "chris.biemann@uni-hamburg.de",
       group: "LT",
       desc: "Hourly time-limited free beer allocation; lounge + foosball lab + Bernoulli trials."
@@ -582,25 +556,23 @@
       id: "paintroom",
       title: "GenAI: Generative Ambiance Illustration (Paintroom)",
       type: "Maker",
-      room: "F-4XX (tba)",
+      room: "F-435",
       start: "15:00",
       end: "21:00",
-      contact: "tba",
+      contact: "chris.biemann@uni-hamburg.de",
       group: "LT",
-      desc: "Human-powered image generation; we supply colors, you hallucinate the ambiance.",
-      tba: true
+      desc: "Human-powered image generation; we supply colors, you hallucinate the ambiance."
     },
     {
       id: "reverse-deengineering",
       title: "Reverse Hardware Deengineering",
       type: "Maker",
-      room: "F-4XX (tba)",
+      room: "F-42X",
       start: "17:00",
       end: "20:00",
       contact: "tba",
       group: "LT",
-      desc: "Explore hardware from the inside. No functional hardware will be harmed (probably).",
-      tba: true
+      desc: "Explore hardware from the inside. No functional hardware will be harmed (probably)."
     },
 
     // NET (non-talks)
@@ -608,13 +580,12 @@
       id: "ppt-karaoke",
       title: "PowerPoint Karaoke Slam",
       type: "Social & Vibes",
-      room: "tba (stage)",
-      start: "17:30",
-      end: "20:00",
+      room: "D-125/129",
+      start: "19:00",
+      end: "21:30",
       contact: "Heiko Bornholdt",
       group: "NET",
       desc: "AI-generated slide decks, unknown to the presenters. Qualification round + main round.",
-      tba: true
     },
     {
       id: "flip-cup",
@@ -638,8 +609,7 @@
       end: "26:00",   // keep it open through the full window
       contact: "melissa.eiseburger@studium.uni-hamburg.de; helena.jaeger@studium.uni-hamburg.de",
       group: "STUD",
-      desc: "Rock-paper-scissors tracking and leaderboards. Invite only, schnickers everywhere.",
-      tba: true
+      desc: "Rock-paper-scissors tracking and leaderboards. Invite only, schnickers everywhere."
     },
     {
       id: "bracelets",
@@ -650,8 +620,7 @@
       end: "18:00",
       contact: "Leon Wobbe",
       group: "STUD",
-      desc: "Materials provided. Iteratively add beads until the bracelet is complete.",
-      tba: true
+      desc: "Materials provided. Iteratively add beads until the bracelet is complete."
     },
     {
       id: "beer-pong-opt",
@@ -662,9 +631,36 @@
       end: "18:00",
       contact: "Leon Wobbe",
       group: "STUD",
-      desc: "Observe trajectories under resource constraints; derive an algorithm for optimal gameplay.",
-      tba: true
+      desc: "Observe trajectories under resource constraints; derive an algorithm for optimal gameplay."
     },
+	
+	// RoboCup AG (Hamburg Bit-Bots) (NEW)
+{
+  id: "robocup-bitbots-teleop",
+  title: "RoboCup AG (Hamburg Bit-Bots): Humanoid Robot Teleoperation & RoboSoccer",
+  type: "Demo",
+  room: "F-009",
+  start: "15:00",
+  end: "19:30",
+  contact: "jan.gutsche@studium.uni-hamburg.de",
+  group: "RoboCup AG (Hamburg Bit-Bots)",
+  desc: "Remotely control a humanoid robot and accompany it on a final walk through the Informatikum—or drop by to learn about autonomous soccer-playing humanoid robots.",
+  tags: ["robotics","humanoid","teleoperation","robocup","autonomous-soccer"]
+},
+	
+	// HRI Master Project (NEW)
+{
+  id: "escape-the-informatikum",
+  title: "Escape the Informatikum",
+  type: "Quiz",
+  room: "F-234/235",
+  start: "15:00",
+  end: "21:00",
+  contact: "Thomas Vitry; Connor Gäde; Jan-Gerrit Habekost",
+  group: "HRI Master Project",
+  desc: "Bring your best friend (or a random stranger) and solve the mysteries inside the mind of a robotic researcher. A 2-participant, ~30-minute escape room run by the HRI Master Project. One round every 45 minutes; reservations possible.",
+  tags: ["escape-room","puzzle","hri","reservations","rounds-every-45min"]
+},
 
     // Cross-group
     {
@@ -672,12 +668,11 @@
       title: "Probabilistic Moving Through Space and Time",
       type: "Social & Vibes",
       room: "B-201",
-      start: "14:00",
-      end: "22:00",
-      contact: "tba",
-      group: "Cross-group",
+      start: "20:00",
+      end: "26:00",
+      contact: "janick.edinger@uni-hamburg.de",
       desc: "With DJ Martin Kohler / Junbo Wang; light effects by Anne Lauscher.",
-      tba: true
+      group: "Cross-group",
     }
   ];
 
@@ -876,3 +871,4 @@
 </script>
 </body>
 </html>
+```
