@@ -61,7 +61,7 @@
     "title": "Distributed Object Storage: CAN Tossing with Fault Tolerance (DOSenwerfen)",
     "type": "Game",
     "room": "F-528",
-    "start": "17:00",
+    "start": "15:00",
     "end": "20:00",
     "contact": "janick.edinger@uni-hamburg.de",
     "group": "DOS",
@@ -73,7 +73,7 @@
     "type": "Game",
     "room": "F-528",
     "start": "15:00",
-    "end": "02:00",
+    "end": "20:00",
     "contact": "janick.edinger@uni-hamburg.de",
     "group": "DOS",
     "desc": "Investigate a mystery game. No Android? Borrow a phone from DOS in F-528."
@@ -268,7 +268,18 @@
   "group": "STUD",
   "desc": "How well do you know the campus? Join a round: hide as long as you can or track down the hider using strategic deduction and guided questions from the investigation book.",
   "tags": ["hide-and-seek","localization","multimodal","deduction","campus"]
+},
+{
+  "id": "popup-stellinger-naturpark-photo-exhibit",
+  "title": "Pop-up Photo Exhibit: Stellinger Naturpark (2003–2010)",
+  "type": "Social & Vibes",
+  "room": "Entrance House C", 
+  "start": "13:00",
+  "end": "26:00",
+  "contact": "wolfgang.menzel@uni-hamburg.de",
+  "group": "tba",
+  "desc": "A small pop-up exhibition with photos from the Stellinger Naturpark (2003–2010). Drop by anytime and take a quick time-travel through Stellingen.", 
+  "tags": ["photo","exhibition","popup","stellingen","nostalgia"]
 }
-
   
 ]
