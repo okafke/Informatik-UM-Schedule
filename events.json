@@ -1,5 +1,27 @@
 [
-    {
+  {
+    "id": "qr-perish-1",
+    "title": "Predict OR Perish (DS Card Game)",
+    "type": "Competition",
+    "room": "F-433",
+    "start": "17:00",
+    "end": "18:00",
+    "contact": "carolin.holtermann@uni-hamburg.de",
+    "group": "TAI",
+    "desc": "In a world where language models attempt to predict everything, your only hope is creativity. Each round, you’ll be dealt a prompt. Write the most hilarious, bizarre, brilliant continuation you can muster. One human answer will be crowned champion by the Game Master — unless the LLM sneaks in with a better prediction. (Limited slots)"
+  },  
+  {
+    "id": "qr-perish-2",
+    "title": "Predict OR Perish (DS Card Game)",
+    "type": "Competition",
+    "room": "F-433",
+    "start": "21:00",
+    "end": "22:00",
+    "contact": "carolin.holtermann@uni-hamburg.de",
+    "group": "TAI",
+    "desc": "In a world where language models attempt to predict everything, your only hope is creativity. Each round, you’ll be dealt a prompt. Write the most hilarious, bizarre, brilliant continuation you can muster. One human answer will be crowned champion by the Game Master — unless the LLM sneaks in with a better prediction. (Limited slots)"
+  },  
+  {
     "id": "triadmin-quiz",
     "title": "TriAdmin³ Quizmeisterschaft (Quiz Triathlon)",
     "type": "Quiz",
@@ -148,7 +170,7 @@
     "id": "reverse-deengineering",
     "title": "Reverse Hardware Deengineering",
     "type": "Maker",
-    "room": "F-42X",
+    "room": "F-403",
     "start": "17:00",
     "end": "20:00",
     "contact": "chris.biemann@uni-hamburg.de",
@@ -184,7 +206,7 @@
     "room": "D - Foyer, then online (ikum.schnick.cool)",
     "start": "13:00",
     "end": "26:00",
-    "contact": "melissa.eiseburger@studium.uni-hamburg.de; helena.jaeger@studium.uni-hamburg.de",
+    "contact": "melissa.eisenburger@gmail.com; helena.jaeger@studium.uni-hamburg.de",
     "group": "STUD",
     "desc": "Rock-paper-scissors tracking and leaderboards. Invite only, schnickers everywhere."
   },
@@ -256,8 +278,8 @@
   "group": "STUD",
   "desc": "Pick your favorite song and explore how multiple agent-controlled sound streams can be harmonized in real-time systems. How precisely can you tune and time your output?",
   "tags": ["karaoke","audio","synchronization","realtime","multi-agent"]
-},
-{
+  },
+  {
   "id": "hide-seek-multimodal-localization",
   "title": "Multimodal Person Localization (Hide & Seek)",
   "type": "Game",
@@ -268,10 +290,10 @@
   "group": "STUD",
   "desc": "How well do you know the campus? Join a round: hide as long as you can or track down the hider using strategic deduction and guided questions from the investigation book.",
   "tags": ["hide-and-seek","localization","multimodal","deduction","campus"]
-},
-{
+  },
+  {
   "id": "popup-stellinger-naturpark-photo-exhibit",
-  "title": "Pop-up Photo Exhibit: Stellinger Naturpark (2003–2010)",
+  "title": "Pop-up Photo Exhibit: Naturpark St. Ellingen (2003–2010)",
   "type": "Social & Vibes",
   "room": "C (Entrance)", 
   "start": "13:00",
@@ -280,6 +302,5 @@
   "group": "NATS",
   "desc": "A small pop-up exhibition with photos from the Stellinger Naturpark (2003–2010). Drop by anytime and take a quick time-travel through Stellingen.", 
   "tags": ["photo","exhibition","popup","stellingen","nostalgia"]
-}
-  
+  }
 ]
